@@ -15,31 +15,28 @@ func main() {
 	}
 
 	r := bufio.NewReader(f)
+	r.Discard(16)
 
-	size, err := parse.First(r)
-	if err != nil {
-		fmt.Println(err)
+	for i, err := r.Peek(1); len(i) == 1 && err == nil; {
+
+		frame, err := parse.DecodeNextFrame(r)
+		if err != nil {
+			fmt.Println(fmt.Errorf("error parsing frame: %v", err))
+			return
+		}
+		if frame != nil {
+			fmt.Printf("message: %+v", frame.Message)
+			fmt.Printf("\n\n")
+		}
 	}
 
-	if _, err := r.Discard(int(size) - 12); err != nil {
-		fmt.Println(fmt.Errorf("error jumping to last frame: %v", err))
-	}
+	// offset, err := parse.First(r)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// _ = offset // remove later
 
-	frame, err := parse.DecodeNextFrame(r)
-	if err != nil {
-		fmt.Println(fmt.Errorf("error parsing frame: %v", err))
-	}
-
-	//fmt.Printf("%+v", frame.Message)
-
-	for _, player := range frame.Message.GameInfo.Dota.PlayerInfo {
-		fmt.Println(*player.HeroName)
-		fmt.Println(*player.PlayerName)
-		fmt.Println("Steam:", *player.Steamid)
-		fmt.Println("")
-
-	}
-
-	//fmt.Printf("%+v", )
-
+	// if _, err := r.Discard(int(offset) - 12); err != nil {
+	// 	fmt.Println(fmt.Errorf("error jumping to last frame: %v", err))
+	// }
 }

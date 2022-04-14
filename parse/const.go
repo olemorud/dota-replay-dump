@@ -1,3 +1,3 @@
 package parse
 
-const SIGNATURE = "PBDEMS2\x00"
+const SOURCE2_SIGN = "PBDEMS2\x00"
