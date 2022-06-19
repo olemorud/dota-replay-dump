@@ -19,12 +19,12 @@ type Frame struct {
 	HasEmbeddedData bool
 }
 
-// Return true if the frame message is snappy compressed
+// Return true if the frame message is compressed (with google snappy)
 func (frame *Frame) isCompressed() bool {
 	return (frame.Kind&demo.EDemoCommands_DEM_IsCompressed != 0)
 }
 
-// Checks if file header is correct and returns number the address of the last frame
+// Checks if the file header corresponds to a Dota 2 replay file and returns the position of the last frame
 func First(r *bufio.Reader) (uint64, error) {
 	// Check if first 8 bytes of file is PBDEMS2\0
 	header := make([]byte, 8)
@@ -45,7 +45,7 @@ func First(r *bufio.Reader) (uint64, error) {
 	return uint64(offset), nil
 }
 
-// Parses the next frame on the reader
+// Parses the next frame
 func DecodeNextFrame(r *bufio.Reader) (*Frame, error) {
 
 	// Read command
@@ -158,7 +158,7 @@ func (f *Frame) setMessageType() {
 
 }
 
-// Following code is stolen from binary package
+// Following code is stolen from the binary package and adjusted to 32 bit numbers 
 const MaxVarintLen32 = 5
 
 func ReadUvarint32(r io.ByteReader) (uint32, error) {
