@@ -29,14 +29,4 @@ func main() {
 			fmt.Printf("\n\n")
 		}
 	}
-
-	// offset, err := parse.First(r)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// _ = offset // remove later
-
-	// if _, err := r.Discard(int(offset) - 12); err != nil {
-	// 	fmt.Println(fmt.Errorf("error jumping to last frame: %v", err))
-	// }
 }
