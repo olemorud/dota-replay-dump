@@ -1,3 +1,5 @@
+syntax = "proto2";
+option go_package="./demo";
 import "network_connection.proto";
 
 option cc_generic_services = false;
@@ -105,6 +107,7 @@ message CNETMsg_Tick {
 	optional uint32 host_framestarttime_std_deviation = 6;
 	optional uint32 host_loss = 7;
 	optional uint32 host_unfiltered_frametime = 8;
+	optional uint32 hltv_replay_flags = 9;
 }
 
 message CNETMsg_StringCmd {
@@ -148,20 +151,6 @@ message CSVCMsgList_GameEvents {
 	}
 
 	repeated .CSVCMsgList_GameEvents.event_t events = 1;
-}
-
-message CSVCMsg_UserMessage {
-	optional int32 msg_type = 1;
-	optional bytes msg_data = 2;
-}
-
-message CSVCMsgList_UserMessages {
-	message usermsg_t {
-		optional int32 tick = 1;
-		optional .CSVCMsg_UserMessage msg = 2;
-	}
-
-	repeated .CSVCMsgList_UserMessages.usermsg_t usermsgs = 1;
 }
 
 message CNETMsg_SpawnGroup_Load {
